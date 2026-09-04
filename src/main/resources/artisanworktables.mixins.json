@@ -1,0 +1,18 @@
+{
+    "required": true,
+    "minVersion": "0.8",
+    "package": "com.hikone.artisanworktables.mixin",
+    "refmap": "artisanworktables.mixins.refmap.json",
+    "compatibilityLevel": "JAVA_21",
+    "mixins": [
+    ],
+    "client": [
+        "client.AbstractContainerScreenAccessor"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    },
+    "overwrites": {
+        "requireAnnotations": true
+    }
+}

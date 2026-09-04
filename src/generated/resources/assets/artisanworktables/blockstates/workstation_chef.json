@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "artisanworktables:block/chef/chef_workstation"
+    }
+  }
+}

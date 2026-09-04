@@ -1,0 +1,20 @@
+{
+    "type": "artisanworktables:basic_shaped",
+    "key":
+    {
+        "#":
+        {
+            "item": "minecraft:acacia_planks"
+        }
+    },
+    "pattern":
+    [
+        "# #",
+        "###"
+    ],
+    "result":
+    {
+        "id": "minecraft:acacia_boat",
+        "count": 1
+    }
+}

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "artisanworktables:block/mage/mage_workstation"
+    },
+    "active=true": {
+      "model": "artisanworktables:block/mage/mage_workstation_active"
+    }
+  }
+}

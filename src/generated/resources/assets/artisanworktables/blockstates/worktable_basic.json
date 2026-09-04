@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "artisanworktables:block/worktable/basic_worktable"
+    }
+  }
+}

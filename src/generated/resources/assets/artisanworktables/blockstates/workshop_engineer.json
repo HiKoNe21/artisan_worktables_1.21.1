@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "artisanworktables:block/engineer/engineer_workshop"
+    }
+  }
+}

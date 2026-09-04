@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "artisanworktables:block/farmer/farmer_workstation"
+    }
+  }
+}

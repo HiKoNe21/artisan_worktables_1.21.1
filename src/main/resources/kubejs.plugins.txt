@@ -1,0 +1,1 @@
+com.hikone.artisanworktables.common.plugin.kubejs.ArtisanWorktablesKubePlugin

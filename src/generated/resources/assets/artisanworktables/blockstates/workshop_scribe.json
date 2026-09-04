@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "artisanworktables:block/scribe/scribe_workshop"
+    }
+  }
+}
