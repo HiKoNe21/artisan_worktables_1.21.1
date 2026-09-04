@@ -144,7 +144,7 @@ public abstract class GuiContainerBase<T extends ContainerBase> extends Abstract
 
             if (element.elementIsVisible(mouseX, mouseY) && element.elementIsMouseInside(mouseX, mouseY))
             {
-                element.tooltipTextGet(this.tooltipTextList);
+                element.tooltipTextGet(this.tooltipTextList, mouseX, mouseY);
 
                 if (element instanceof IGuiElementTooltipExtendedProvider)
                 {

@@ -34,7 +34,7 @@ public abstract class GuiElementFluidTankBase extends GuiElementFluidTankVertica
         }
     }
 
-    public List<Component> tooltipTextGet(List<Component> list)
+    public List<Component> tooltipTextGet(List<Component> list, double mouseX, double mouseY)
     {
         if (this.fluidTank.getFluid() == FluidStack.EMPTY || this.fluidTank.getFluidAmount() == 0)
         {

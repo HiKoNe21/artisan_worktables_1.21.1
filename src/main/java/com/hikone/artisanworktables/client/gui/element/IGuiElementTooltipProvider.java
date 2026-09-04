@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface IGuiElementTooltipProvider extends IGuiElement
 {
-    List<Component> tooltipTextGet(List<Component> tooltip);
+    List<Component> tooltipTextGet(List<Component> tooltip, double mouseX, double mouseY);
 }

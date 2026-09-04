@@ -49,7 +49,7 @@ public class GuiElementItemStack extends GuiElementBase implements IGuiElementTo
     }
 
     @Override
-    public List<Component> tooltipTextGet(List<Component> tooltip)
+    public List<Component> tooltipTextGet(List<Component> tooltip, double mouseX, double mouseY)
     {
         ItemStack itemStack = this.itemStackSupplier.get();
         Minecraft minecraft = Minecraft.getInstance();

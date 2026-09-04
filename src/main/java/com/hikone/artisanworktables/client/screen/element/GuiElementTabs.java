@@ -6,11 +6,13 @@ import com.hikone.artisanworktables.client.gui.GuiContainerBase;
 import com.hikone.artisanworktables.client.gui.GuiHelper;
 import com.hikone.artisanworktables.client.gui.element.GuiElementBase;
 import com.hikone.artisanworktables.client.gui.element.IGuiElementClickable;
+import com.hikone.artisanworktables.client.gui.element.IGuiElementTooltipProvider;
 import com.hikone.artisanworktables.client.screen.GuiTabOffset;
 import com.hikone.artisanworktables.common.network.CSPacketWorktableTab;
 import com.hikone.artisanworktables.common.tile.BaseBlockEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -22,7 +24,7 @@ import net.minecraft.core.BlockPos;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GuiElementTabs extends GuiElementBase implements IGuiElementClickable
+public class GuiElementTabs extends GuiElementBase implements IGuiElementClickable, IGuiElementTooltipProvider
 {
     private static final int TAB_WIDTH = 24;
     private static final int TAB_SPACING = 2;
@@ -132,6 +134,31 @@ public class GuiElementTabs extends GuiElementBase implements IGuiElementClickab
     public void drawForegroundLayer(PoseStack matrixStack, int mouseX, int mouseY)
     {
         //
+    }
+
+    @Override
+    public List<Component> tooltipTextGet(List<Component> list, double mouseX, double mouseY)
+    {
+        var actualJoinedTables = this.worktable.getJoinedTables(new ArrayList<>(), Minecraft.getInstance().player, BaseBlockEntity::allowTabs);
+        var joinedTables = this.getJoinedTableOffsetView(actualJoinedTables, GUI_TAB_OFFSET.getOffset());
+
+        int yMin = this.elementYModifiedGet();
+        int yMax = yMin + TAB_HEIGHT;
+
+        for (int i = 0; i < joinedTables.size(); i++)
+        {
+            int xMin = this.elementXModifiedGet() + TAB_ITEM_HORIZONTAL_OFFSET + (TAB_WIDTH + TAB_SPACING) * i;
+            int xMax = xMin + TAB_WIDTH;
+
+            if (mouseX <= xMax && mouseX >= xMin && mouseY <= yMax && mouseY >= yMin)
+            {
+                var table = joinedTables.get(i);
+                var key = String.format("block.artisanworktables.%s_%s", table.getTableTier().getName(), table.getTableType().getName());
+                list.add(Component.translatable(key));
+            }
+        }
+
+        return list;
     }
 
     @Override
