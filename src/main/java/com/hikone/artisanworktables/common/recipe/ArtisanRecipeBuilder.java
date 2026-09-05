@@ -13,6 +13,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.crafting.ShapedRecipePattern;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import java.util.Optional;
@@ -28,8 +30,8 @@ public class ArtisanRecipeBuilder
     private NonNullList<Ingredient> ingredients;
     private NonNullList<Ingredient> secondaryIngredients;
     private boolean consumeSecondaryIngredients;
-    private FluidStack fluidIngredient;
-    private NonNullList<ArtisanRecipe.ExtraOutputChancePair> extraOutputs;
+    private SizedFluidIngredient fluidIngredient;
+    private NonNullList<ChanceResult> extraOutputs;
     private int minimumTier;
     private int maximumTier;
     private int experienceRequired;
@@ -51,7 +53,7 @@ public class ArtisanRecipeBuilder
         this.ingredients = NonNullList.create();
         this.secondaryIngredients = NonNullList.create();
         this.consumeSecondaryIngredients = true;
-        this.fluidIngredient = FluidStack.EMPTY;
+        this.fluidIngredient = new SizedFluidIngredient(FluidIngredient.empty(), 1);
         this.extraOutputs = NonNullList.create();
         this.minimumTier = 0;
         this.maximumTier = 2;
@@ -123,13 +125,13 @@ public class ArtisanRecipeBuilder
         return this;
     }
 
-    public ArtisanRecipeBuilder setFluidIngredient(FluidStack fluidIngredient)
+    public ArtisanRecipeBuilder setFluidIngredient(SizedFluidIngredient fluidIngredient)
     {
         this.fluidIngredient = fluidIngredient;
         return this;
     }
 
-    public ArtisanRecipeBuilder setExtraOutputs(NonNullList<ArtisanRecipe.ExtraOutputChancePair> extraOutputs)
+    public ArtisanRecipeBuilder setExtraOutputs(NonNullList<ChanceResult> extraOutputs)
     {
         this.extraOutputs = extraOutputs;
         return this;
@@ -137,7 +139,7 @@ public class ArtisanRecipeBuilder
 
     public ArtisanRecipeBuilder addExtraOutput(ItemStack itemStack, float chance)
     {
-        this.extraOutputs.add(new ArtisanRecipe.ExtraOutputChancePair(itemStack, chance));
+        this.extraOutputs.add(new ChanceResult(itemStack, chance));
         return this;
     }
 
@@ -295,16 +297,16 @@ public class ArtisanRecipeBuilder
         }
 
         builder.append(this.consumeSecondaryIngredients)
-                .append(HashCodeHelper.get(this.fluidIngredient))
+                .append(this.fluidIngredient) // TODO: it work? (hashcode)
                 .append(this.experienceRequired)
                 .append(this.levelRequired)
                 .append(this.consumeExperience)
                 .append(this.craftSound);
 
         // Extra Chance Outputs
-        for (ArtisanRecipe.ExtraOutputChancePair pair : this.extraOutputs)
+        for (var chanceResult : this.extraOutputs)
         {
-            builder.append(HashCodeHelper.get(pair));
+            builder.append( HashCodeHelper.get(chanceResult));
         }
 
         builder.append(this.mirrored)

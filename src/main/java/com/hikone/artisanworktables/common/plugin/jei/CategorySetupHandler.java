@@ -1,8 +1,10 @@
 package com.hikone.artisanworktables.common.plugin.jei;
 
 import com.google.common.collect.Lists;
+import com.hikone.artisanworktables.ArtisanWorktablesMod;
 import com.hikone.artisanworktables.common.recipe.ArtisanRecipe;
 import com.hikone.artisanworktables.common.recipe.ArtisanRecipeShaped;
+import com.hikone.artisanworktables.common.recipe.ChanceResult;
 import com.hikone.artisanworktables.common.recipe.ToolEntry;
 import com.hikone.artisanworktables.common.reference.EnumTier;
 import mezz.jei.api.neoforge.NeoForgeTypes;
@@ -13,7 +15,9 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -87,11 +91,12 @@ public class CategorySetupHandler
 
     private void setupFluid(ArtisanRecipe recipe, IRecipeLayoutBuilder builder, EnumTier tier)
     {
-        FluidStack fluidStack = recipe.getFluidIngredient();
+        SizedFluidIngredient fluidIngredient = recipe.getFluidIngredient();
 
-        if (!fluidStack.isEmpty())
+        if (!fluidIngredient.ingredient().isEmpty())
         {
-            long capacity = (long) fluidStack.getAmount() * 2;
+            long capacity = (long) fluidIngredient.amount() * 2;
+            List<FluidStack> matchingFluids = Arrays.stream(fluidIngredient.getFluids()).filter(fs -> fs.getFluid().isSource(fs.getFluid().defaultFluidState())).toList();
 
             if (tier == EnumTier.WORKTABLE || tier == EnumTier.WORKSTATION)
             {
@@ -99,36 +104,34 @@ public class CategorySetupHandler
                 // would push the tall fluid renderer out of its background frame.
                 builder.addSlot(RecipeIngredientRole.CATALYST, 5, 14)
                         .setFluidRenderer(capacity, false, 6, 52)
-                        .addIngredient(NeoForgeTypes.FLUID_STACK, fluidStack);
+                        .addIngredients(NeoForgeTypes.FLUID_STACK, matchingFluids);
 
             } else if (tier == EnumTier.WORKSHOP)
             {
                 builder.addSlot(RecipeIngredientRole.CATALYST, 5, 4)
                         .setFluidRenderer(capacity, false, 6, 88)
-                        .addIngredient(NeoForgeTypes.FLUID_STACK, fluidStack);
+                        .addIngredients(NeoForgeTypes.FLUID_STACK, matchingFluids);
             }
         }
     }
 
     private void setupExtraOutputs(ArtisanRecipe recipe, IRecipeLayoutBuilder builder, EnumTier tier)
     {
-        NonNullList<ArtisanRecipe.ExtraOutputChancePair> extraOutputs = recipe.getExtraOutputs();
+        NonNullList<ChanceResult> extraOutputs = recipe.getExtraOutputs();
         int size = Math.min(extraOutputs.size(), 3);
 
         if (tier == EnumTier.WORKTABLE || tier == EnumTier.WORKSTATION)
         {
             for (int i = 0; i < size; i++)
             {
-                this.slot(builder, RecipeIngredientRole.OUTPUT, 148, 13 + 18 * i)
-                        .addItemStack(extraOutputs.get(i).getOutput());
+                this.slot(builder, RecipeIngredientRole.OUTPUT, 148, 13 + 18 * i).addItemStack(extraOutputs.get(i).stack());
             }
 
         } else if (tier == EnumTier.WORKSHOP)
         {
             for (int i = 0; i < size; i++)
             {
-                this.slot(builder, RecipeIngredientRole.OUTPUT, 112 + 18 * i, 3)
-                        .addItemStack(extraOutputs.get(i).getOutput());
+                this.slot(builder, RecipeIngredientRole.OUTPUT, 112 + 18 * i, 3).addItemStack(extraOutputs.get(i).stack());
             }
         }
     }

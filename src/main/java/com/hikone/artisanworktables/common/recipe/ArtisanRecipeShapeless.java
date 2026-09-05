@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.util.RecipeMatcher;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -27,8 +28,8 @@ public class ArtisanRecipeShapeless extends ArtisanRecipe
             NonNullList<Ingredient> ingredients,
             NonNullList<Ingredient> secondaryIngredients,
             boolean consumeSecondaryIngredients,
-            FluidStack fluidIngredient,
-            NonNullList<ExtraOutputChancePair> extraOutputs,
+            SizedFluidIngredient fluidIngredient,
+            NonNullList<ChanceResult> extraOutputs,
             int minimumTier,
             int maximumTier,
             int experienceRequired,

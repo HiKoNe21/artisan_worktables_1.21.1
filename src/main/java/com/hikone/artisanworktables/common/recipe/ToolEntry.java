@@ -1,6 +1,8 @@
 package com.hikone.artisanworktables.common.recipe;
 
 import com.hikone.artisanworktables.api.IToolHandler;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ItemStack;
@@ -17,6 +19,14 @@ import java.util.Optional;
 
 public class ToolEntry
 {
+    public static final Codec<ToolEntry> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            Ingredient.CODEC.optionalFieldOf("ingredient", Ingredient.EMPTY).forGetter(ToolEntry::getTool),
+            Codec.INT.optionalFieldOf("damage", 1).forGetter(ToolEntry::getDamage),
+            Codec.BOOL.optionalFieldOf("matchNbt", false).forGetter(ToolEntry::matchNbt),
+            ItemAbility.CODEC.optionalFieldOf("toolAction").forGetter(tool -> Optional.ofNullable(tool.getItemAbility()))
+    ).apply(instance, (ingredient, damage, matchNbt, ability) ->
+            new ToolEntry(ingredient, damage, matchNbt, ability.orElse(null))));
+
     private static final ThreadLocal<List<ItemStack>> TOOL_CACHE = ThreadLocal.withInitial(ArrayList::new);
 
     private static ItemStack cache(ItemStack itemStack)

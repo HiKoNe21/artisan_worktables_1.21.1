@@ -1,19 +1,17 @@
 package com.hikone.artisanworktables.common.plugin.kubejs;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonNull;
+import com.hikone.artisanworktables.common.plugin.kubejs.components.ChanceResultComponent;
+import com.hikone.artisanworktables.common.plugin.kubejs.components.ToolEntryComponent;
+import com.hikone.artisanworktables.common.recipe.ChanceResult;
+import com.hikone.artisanworktables.common.recipe.ToolEntry;
 import dev.latvian.mods.kubejs.recipe.RecipeKey;
-import dev.latvian.mods.kubejs.recipe.component.BooleanComponent;
-import dev.latvian.mods.kubejs.recipe.component.IngredientComponent;
-import dev.latvian.mods.kubejs.recipe.component.ItemStackComponent;
-import dev.latvian.mods.kubejs.recipe.component.NumberComponent;
-import dev.latvian.mods.kubejs.recipe.component.StringComponent;
+import dev.latvian.mods.kubejs.recipe.component.*;
 import dev.latvian.mods.kubejs.recipe.schema.RecipeSchema;
 import dev.latvian.mods.kubejs.typings.Info;
 import dev.latvian.mods.kubejs.util.TinyMap;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 
 import java.util.List;
 
@@ -36,11 +34,11 @@ public interface ArtisanRecipeSchemas
 
     RecipeKey<Boolean> CONSUME_SECONDARY = BooleanComponent.BOOLEAN.otherKey("consumeSecondaryIngredients").optional(true);
 
-    RecipeKey<JsonElement> TOOLS = JsonPassthroughComponent.INSTANCE.otherKey("tools").optional(new JsonArray());
+    RecipeKey<List<ToolEntry>> TOOLS = ToolEntryComponent.TOOL_ENTRY.instance().asList().otherKey("tools").defaultOptional();
 
-    RecipeKey<JsonElement> EXTRA_OUTPUT = JsonPassthroughComponent.INSTANCE.otherKey("extraOutput").optional(new JsonArray());
+    RecipeKey<List<ChanceResult>> EXTRA_OUTPUT = ChanceResultComponent.CHANCE_RESULT.instance().asList().otherKey("extraOutput").defaultOptional();
 
-    RecipeKey<JsonElement> FLUID_INGREDIENT = JsonPassthroughComponent.INSTANCE.otherKey("fluidIngredient").optional(JsonNull.INSTANCE);
+    RecipeKey<SizedFluidIngredient> FLUID_INGREDIENT = SizedFluidIngredientComponent.OPTIONAL_FLAT.otherKey("fluidIngredient").defaultOptional();
 
     RecipeKey<Integer> MINIMUM_TIER = NumberComponent.INT.otherKey("minimumTier").optional(0);
 

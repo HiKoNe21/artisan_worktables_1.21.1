@@ -12,8 +12,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public abstract class ArtisanRecipe implements Recipe<ArtisanInventory>
 {
@@ -25,8 +28,8 @@ public abstract class ArtisanRecipe implements Recipe<ArtisanInventory>
     protected final NonNullList<Ingredient> ingredients;
     protected final NonNullList<Ingredient> secondaryIngredients;
     protected final boolean consumeSecondaryIngredients;
-    protected final FluidStack fluidIngredient;
-    protected final NonNullList<ExtraOutputChancePair> extraOutputs;
+    protected final SizedFluidIngredient fluidIngredient;
+    protected final NonNullList<ChanceResult> extraOutputs;
     protected final int minimumTier;
     protected final int maximumTier;
     protected final int experienceRequired;
@@ -43,8 +46,8 @@ public abstract class ArtisanRecipe implements Recipe<ArtisanInventory>
             NonNullList<Ingredient> ingredients,
             NonNullList<Ingredient> secondaryIngredients,
             boolean consumeSecondaryIngredients,
-            FluidStack fluidIngredient,
-            NonNullList<ExtraOutputChancePair> extraOutputs,
+            SizedFluidIngredient fluidIngredient,
+            NonNullList<ChanceResult> extraOutputs,
             int minimumTier,
             int maximumTier,
             int experienceRequired,
@@ -106,12 +109,12 @@ public abstract class ArtisanRecipe implements Recipe<ArtisanInventory>
         return this.consumeSecondaryIngredients;
     }
 
-    public FluidStack getFluidIngredient()
+    public SizedFluidIngredient getFluidIngredient()
     {
         return this.fluidIngredient;
     }
 
-    public NonNullList<ExtraOutputChancePair> getExtraOutputs()
+    public NonNullList<ChanceResult> getExtraOutputs()
     {
         return this.extraOutputs;
     }
@@ -206,11 +209,9 @@ public abstract class ArtisanRecipe implements Recipe<ArtisanInventory>
             return false;
         }
 
-        if (!this.fluidIngredient.isEmpty())
+        if (!this.fluidIngredient.ingredient().isEmpty())
         {
-            FluidStack tankFluid = inventory.getFluidStack();
-
-            if (!FluidStack.isSameFluidSameComponents(tankFluid, this.fluidIngredient) || tankFluid.getAmount() < this.fluidIngredient.getAmount())
+            if (!fluidIngredient.test(inventory.getFluidStack()))
             {
                 return false;
             }
@@ -309,6 +310,7 @@ public abstract class ArtisanRecipe implements Recipe<ArtisanInventory>
     // Data
     // ---------------------------------------------------------------------------
 
+    /*
     public static class ExtraOutputChancePair
     {
         private final ItemStack output;
@@ -330,4 +332,5 @@ public abstract class ArtisanRecipe implements Recipe<ArtisanInventory>
             return this.chance;
         }
     }
+     */
 }

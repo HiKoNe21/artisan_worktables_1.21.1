@@ -11,6 +11,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -29,8 +30,8 @@ public class ArtisanRecipeShaped extends ArtisanRecipe
             ShapedRecipePattern pattern,
             NonNullList<Ingredient> secondaryIngredients,
             boolean consumeSecondaryIngredients,
-            FluidStack fluidIngredient,
-            NonNullList<ExtraOutputChancePair> extraOutputs,
+            SizedFluidIngredient fluidIngredient,
+            NonNullList<ChanceResult> extraOutputs,
             boolean mirrored,
             int minimumTier,
             int maximumTier,

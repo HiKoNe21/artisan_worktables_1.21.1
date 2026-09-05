@@ -1,6 +1,7 @@
 package com.hikone.artisanworktables.common.util;
 
 import com.hikone.artisanworktables.common.recipe.ArtisanRecipe;
+import com.hikone.artisanworktables.common.recipe.ChanceResult;
 import com.hikone.artisanworktables.common.recipe.ToolEntry;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -65,11 +66,11 @@ public final class HashCodeHelper
                 .build();
     }
 
-    public static int get(ArtisanRecipe.ExtraOutputChancePair pair)
+    public static int get(ChanceResult chanceResult)
     {
         return new HashCodeBuilder()
-                .append(HashCodeHelper.get(pair.getOutput()))
-                .append(pair.getChance())
+                .append(HashCodeHelper.get(chanceResult.stack()))
+                .append(chanceResult.chance())
                 .build();
     }
 

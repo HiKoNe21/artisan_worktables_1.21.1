@@ -18,6 +18,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
@@ -111,14 +112,14 @@ public class CraftHandler
             Level world,
             BlockPos pos,
             IItemHandlerModifiable secondaryOutputHandler,
-            NonNullList<ArtisanRecipe.ExtraOutputChancePair> extraOutputs,
+            NonNullList<ChanceResult> extraOutputs,
             List<ItemStack> result)
     {
-        for (ArtisanRecipe.ExtraOutputChancePair extraOutput : extraOutputs)
+        for (var extraOutput : extraOutputs)
         {
-            if (Util.RANDOM.nextFloat() < extraOutput.getChance())
+            if (Util.RANDOM.nextFloat() < extraOutput.chance())
             {
-                result.add(this.generateExtraOutput(world, pos, secondaryOutputHandler, extraOutput.getOutput()));
+                result.add(this.generateExtraOutput(world, pos, secondaryOutputHandler, extraOutput.stack()));
             }
         }
     }
@@ -177,11 +178,11 @@ public class CraftHandler
         return itemStacks;
     }
 
-    private void onCraftReduceFluid(IFluidHandler fluidHandler, FluidStack fluidIngredient)
+    private void onCraftReduceFluid(IFluidHandler fluidHandler, SizedFluidIngredient fluidIngredient)
     {
-        if (!fluidIngredient.isEmpty())
+        if (!fluidIngredient.ingredient().isEmpty())
         {
-            fluidHandler.drain(fluidIngredient, IFluidHandler.FluidAction.EXECUTE);
+            fluidHandler.drain(fluidIngredient.amount(), IFluidHandler.FluidAction.EXECUTE);
         }
     }
 

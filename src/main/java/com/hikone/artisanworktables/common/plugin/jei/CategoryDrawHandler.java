@@ -109,7 +109,7 @@ public class CategoryDrawHandler
 
             for (int i = 0; i < size; i++)
             {
-                float chance = recipe.getExtraOutputs().get(i).getChance();
+                float chance = recipe.getExtraOutputs().get(i).chance();
                 this.drawExtraOutputChanceString(font, guiGraphics, chance, xPos + 36 * i, yPos);
             }
 
@@ -121,7 +121,7 @@ public class CategoryDrawHandler
 
             for (int i = 0; i < size; i++)
             {
-                float chance = recipe.getExtraOutputs().get(i).getChance();
+                float chance = recipe.getExtraOutputs().get(i).chance();
                 this.drawExtraOutputChanceString(font, guiGraphics, chance, xPos, yPos + 36 * i);
             }
         }
