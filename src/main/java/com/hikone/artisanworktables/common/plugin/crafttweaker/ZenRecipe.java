@@ -23,6 +23,7 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import org.apache.logging.log4j.Logger;
 import org.openzen.zencode.java.ZenCodeType;
 
@@ -30,7 +31,6 @@ import org.openzen.zencode.java.ZenCodeType;
 @ZenCodeType.Name("mods.artisanworktables.Recipe")
 public class ZenRecipe
 {
-
     private static final Logger LOGGER = CraftTweakerAPI.getLogger(ArtisanWorktablesMod.MODID);
 
     private static IScriptRunInfo lastRunInfo;
@@ -43,7 +43,6 @@ public class ZenRecipe
 
     public ZenRecipe(ZenEnumType type, ArtisanRecipeBuilder builder)
     {
-
         this.type = type;
         this.builder = builder;
     }
@@ -51,14 +50,12 @@ public class ZenRecipe
     @ZenCodeType.Method
     public static ZenRecipe type(ZenEnumType type)
     {
-
         return new ZenRecipe(type, new ArtisanRecipeBuilder());
     }
 
     @ZenCodeType.Method
     public ZenRecipe shaped(IIngredient[][] ingredients)
     {
-
         NonNullList<Ingredient> result = NonNullList.create();
 
         int maxWidth = 0;
@@ -82,7 +79,6 @@ public class ZenRecipe
     @ZenCodeType.Method
     public ZenRecipe shapeless(IIngredient[] ingredients)
     {
-
         NonNullList<Ingredient> result = NonNullList.create();
 
         for (IIngredient iIngredient : ingredients)
@@ -120,7 +116,7 @@ public class ZenRecipe
     @ZenCodeType.Method
     public ZenRecipe fluid(IFluidStack fluid)
     {
-        this.builder.setFluidIngredient(fluid.getInternal());
+        this.builder.setFluidIngredient(SizedFluidIngredient.of(fluid.getInternal()));
         return this;
     }
 
@@ -133,7 +129,6 @@ public class ZenRecipe
     @ZenCodeType.Method
     public ZenRecipe secondary(IIngredient[] ingredients, boolean consume)
     {
-
         NonNullList<Ingredient> result = NonNullList.create();
 
         for (IIngredient iIngredient : ingredients)
@@ -149,7 +144,6 @@ public class ZenRecipe
     @ZenCodeType.Method
     public ZenRecipe mirrored(boolean mirrored)
     {
-
         this.builder.setMirrored(mirrored);
         return this;
     }
@@ -157,14 +151,12 @@ public class ZenRecipe
     @ZenCodeType.Method
     public ZenRecipe restrict(ZenEnumTier minimum)
     {
-
         return this.restrict(minimum, ZenEnumTier.WORKSHOP);
     }
 
     @ZenCodeType.Method
     public ZenRecipe restrict(ZenEnumTier minimum, ZenEnumTier maximum)
     {
-
         this.builder.setMinimumTier(minimum.getTier().getId());
         this.builder.setMaximumTier(maximum.getTier().getId());
         return this;
@@ -173,14 +165,12 @@ public class ZenRecipe
     @ZenCodeType.Method
     public ZenRecipe experience(int amount)
     {
-
         return this.experience(amount, true);
     }
 
     @ZenCodeType.Method
     public ZenRecipe experience(int amount, boolean consume)
     {
-
         this.builder.setLevelRequired(0);
         this.builder.setExperienceRequired(amount);
         this.builder.setConsumeExperience(consume);
@@ -190,14 +180,12 @@ public class ZenRecipe
     @ZenCodeType.Method
     public ZenRecipe level(int amount)
     {
-
         return this.level(amount, true);
     }
 
     @ZenCodeType.Method
     public ZenRecipe level(int amount, boolean consume)
     {
-
         this.builder.setExperienceRequired(0);
         this.builder.setLevelRequired(amount);
         this.builder.setConsumeExperience(consume);
@@ -207,7 +195,6 @@ public class ZenRecipe
     @ZenCodeType.Method
     public ZenRecipe craftSound(String craftSound)
     {
-
         this.builder.setCraftSound(craftSound);
         return this;
     }
@@ -215,7 +202,6 @@ public class ZenRecipe
     @ZenCodeType.Method
     public ZenRecipe output(IItemStack output)
     {
-
         this.builder.setResult(output.getInternal());
         return this;
     }
@@ -223,7 +209,6 @@ public class ZenRecipe
     @ZenCodeType.Method
     public ZenRecipe extra(IItemStack extra, float chance)
     {
-
         this.builder.addExtraOutput(extra.getInternal(), chance);
         return this;
     }
@@ -231,7 +216,6 @@ public class ZenRecipe
     @ZenCodeType.Method
     public void register()
     {
-
         IScriptRunInfo runInfo = CraftTweakerAPI.getScriptRunManager().currentRunInfo();
 
         if (ZenRecipe.lastRunInfo != runInfo)
@@ -247,17 +231,13 @@ public class ZenRecipe
     @ZenCodeType.Method
     public void register(String name)
     {
-
         CraftTweakerUtil.validateRecipeName(name);
         ResourceLocation resourceLocation = ResourceLocation.fromNamespaceAndPath("crafttweaker", name);
         this.builder.setRecipeId(resourceLocation);
 
         try
         {
-
-            ArtisanRecipe recipe = this.isShaped
-                    ? this.builder.buildShaped(this.type.getType())
-                    : this.builder.buildShapeless(this.type.getType());
+            ArtisanRecipe recipe = this.isShaped ? this.builder.buildShaped(this.type.getType()) : this.builder.buildShapeless(this.type.getType());
 
             IRecipeManager<ArtisanRecipe> manager = managerFor(recipe);
             RecipeHolder<ArtisanRecipe> holder = manager.createHolder(resourceLocation, recipe);
@@ -272,7 +252,6 @@ public class ZenRecipe
     @ZenCodeType.Method
     public static void injectTestRecipes()
     {
-
         RecipeInjector.inject(recipe ->
         {
             IRecipeManager<ArtisanRecipe> manager = managerFor(recipe);
@@ -283,7 +262,6 @@ public class ZenRecipe
 
     private static IRecipeManager<ArtisanRecipe> managerFor(ArtisanRecipe recipe)
     {
-
         EnumType tableType = recipe.getTableType();
         RecipeType<ArtisanRecipe> recipeType = (recipe instanceof ArtisanRecipeShaped)
                 ? RecipeTypes.SHAPED_RECIPE_TYPES.get(tableType)

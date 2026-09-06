@@ -483,7 +483,7 @@ public abstract class BaseBlockEntity extends BlockEntityDataBase
         return null;
     }
 
-    private ArtisanInventory getInventory(@Nonnull Player player)
+    public ArtisanInventory getInventory(@Nonnull Player player)
     {
         ItemStack[] tools = this.getTools();
 
