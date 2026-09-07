@@ -122,7 +122,7 @@ public class RecipeTransferInfo<C extends BaseContainer> implements IRecipeTrans
             }
         }
 
-        for (int i = container.slotIndexSecondaryInputStart; i < container.slotIndexSecondaryInputEnd; i++)
+        for (int i = container.slotIndexSecondaryInputStart; i <= container.slotIndexSecondaryInputEnd; i++)
         {
             result.add(container.slots.get(i));
         }

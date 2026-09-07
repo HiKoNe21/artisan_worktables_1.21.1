@@ -3,8 +3,11 @@ package com.hikone.artisanworktables.common.plugin.craftingtweaks;
 import com.hikone.artisanworktables.client.screen.BaseScreen;
 import com.hikone.artisanworktables.client.screen.WorkshopScreen;
 import net.blay09.mods.craftingtweaks.api.*;
+import net.blay09.mods.craftingtweaks.client.GuiTweakButton;
 import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.network.chat.Component;
 
 import java.util.function.Consumer;
 

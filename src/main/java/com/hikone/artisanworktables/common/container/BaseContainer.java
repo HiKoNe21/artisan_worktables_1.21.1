@@ -448,61 +448,61 @@ public abstract class BaseContainer extends ContainerBase
         return slot != this.craftingResultSlot;
     }
 
-    private boolean isSlotSecondaryInput(int slotIndex)
+    public boolean isSlotSecondaryInput(int slotIndex)
     {
         return slotIndex >= this.slotIndexSecondaryInputStart && slotIndex <= this.slotIndexSecondaryInputEnd;
     }
 
-    private boolean isSlotIndexResult(int slotIndex)
+    public boolean isSlotIndexResult(int slotIndex)
     {
         return slotIndex == this.slotIndexResult;
     }
 
-    private boolean isSlotIndexInventory(int slotIndex)
+    public boolean isSlotIndexInventory(int slotIndex)
     {
         return slotIndex >= this.slotIndexInventoryStart && slotIndex <= this.slotIndexInventoryEnd;
     }
 
-    private boolean isSlotIndexHotbar(int slotIndex)
+    public boolean isSlotIndexHotbar(int slotIndex)
     {
         return slotIndex >= this.slotIndexHotbarStart && slotIndex <= this.slotIndexHotbarEnd;
     }
 
-    private boolean isSlotIndexToolbox(int slotIndex)
+    public boolean isSlotIndexToolbox(int slotIndex)
     {
         return slotIndex >= this.slotIndexToolboxStart && slotIndex <= this.slotIndexToolboxEnd;
     }
 
-    private boolean isSlotIndexTool(int slotIndex)
+    public boolean isSlotIndexTool(int slotIndex)
     {
         return slotIndex >= this.slotIndexToolsStart && slotIndex <= this.slotIndexToolsEnd;
     }
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-    private boolean mergeInventory(ItemStack itemStack, boolean reverse)
+    public boolean mergeInventory(ItemStack itemStack, boolean reverse)
     {
         return this.moveItemStackTo(itemStack, this.slotIndexInventoryStart, this.slotIndexInventoryEnd + 1, reverse);
     }
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-    private boolean mergeHotbar(ItemStack itemStack, boolean reverse)
+    public boolean mergeHotbar(ItemStack itemStack, boolean reverse)
     {
         return this.moveItemStackTo(itemStack, this.slotIndexHotbarStart, this.slotIndexHotbarEnd + 1, reverse);
     }
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-    private boolean mergeCraftingMatrix(ItemStack itemStack, boolean reverse)
+    public boolean mergeCraftingMatrix(ItemStack itemStack, boolean reverse)
     {
         return this.moveItemStackTo(itemStack, this.slotIndexCraftingMatrixStart, this.slotIndexCraftingMatrixEnd + 1, reverse);
     }
 
-    private boolean mergeToolbox(ItemStack itemStack, boolean reverse)
+    public boolean mergeToolbox(ItemStack itemStack, boolean reverse)
     {
         return this.moveItemStackTo(itemStack, this.slotIndexToolboxStart, this.slotIndexToolboxEnd + 1, reverse);
     }
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-    private boolean mergeSecondaryInput(ItemStack itemStack, boolean reverse)
+    public boolean mergeSecondaryInput(ItemStack itemStack, boolean reverse)
     {
         if (this.slotIndexSecondaryInputStart == -1)
         {
@@ -512,7 +512,7 @@ public abstract class BaseContainer extends ContainerBase
         return this.moveItemStackTo(itemStack, this.slotIndexSecondaryInputStart, this.slotIndexSecondaryInputEnd + 1, reverse);
     }
 
-    private boolean swapTools(int slotIndex)
+    public boolean swapTools(int slotIndex)
     {
         for (int i = this.slotIndexToolsStart; i <= this.slotIndexToolsEnd; i++)
         {

@@ -12,11 +12,48 @@ public class ArtisanGridClearHandler extends DefaultGridClearHandler
     @Override
     public void clearGrid(CraftingGrid grid, Player player, AbstractContainerMenu menu, boolean forced)
     {
-        ClearSecondaryIngredients(grid, player, menu, forced);
-        super.clearGrid(grid, player, menu, forced);
+        if (forced)
+        {
+            ClearTools(grid, player, menu);
+            ClearSecondaryIngredients(grid, player, menu);
+        }
+        super.clearGrid(grid, player, menu, false);
     }
 
-    private static void ClearSecondaryIngredients(CraftingGrid grid, Player player, AbstractContainerMenu menu, boolean forced)
+    private static void ClearTools(CraftingGrid grid, Player player, AbstractContainerMenu menu)
+    {
+        if (menu instanceof BaseContainer baseContainer && baseContainer.getTile() != null)
+        {
+            var toolHandler = baseContainer.getTile().getToolHandler();
+
+            for (int i = 0; i < toolHandler.getSlots(); i++)
+            {
+                ItemStack itemStack = toolHandler.getStackInSlot(i);
+                if (itemStack.isEmpty())
+                {
+                    continue;
+                }
+
+                ItemStack remainder = itemStack.copy();
+
+                if (baseContainer.canPlayerUseToolbox())
+                {
+                    baseContainer.mergeToolbox(remainder, false);
+                }
+                else
+                {
+                    player.getInventory().add(remainder);
+                }
+
+                if (remainder.getCount() != itemStack.getCount())
+                {
+                    toolHandler.setStackInSlot(i, remainder.isEmpty() ? ItemStack.EMPTY : remainder);
+                }
+            }
+        }
+    }
+
+    private static void ClearSecondaryIngredients(CraftingGrid grid, Player player, AbstractContainerMenu menu)
     {
         if (menu instanceof BaseContainer baseContainer && baseContainer.getTile() != null)
         {
@@ -40,12 +77,6 @@ public class ArtisanGridClearHandler extends DefaultGridClearHandler
                     if (remainder.getCount() != itemStack.getCount())
                     {
                         secondaryHandler.setStackInSlot(i, remainder.isEmpty() ? ItemStack.EMPTY : remainder);
-                    }
-
-                    if (!remainder.isEmpty() && forced)
-                    {
-                        player.drop(remainder, false);
-                        secondaryHandler.setStackInSlot(i, ItemStack.EMPTY);
                     }
                 }
             }

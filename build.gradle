@@ -156,11 +156,11 @@ dependencies {
     compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
     runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
 
-    compileOnly("net.blay09.mods:balm-neoforge:21.0.65+${minecraft_version}")
-    runtimeOnly("net.blay09.mods:balm-neoforge:21.0.65+${minecraft_version}")
+    compileOnly("net.blay09.mods:balm-neoforge:${balm_version}+${minecraft_version}")
+    runtimeOnly("net.blay09.mods:balm-neoforge:${balm_version}+${minecraft_version}")
 
-    compileOnly("net.blay09.mods:craftingtweaks-neoforge:21.1.6+${minecraft_version}")
-    runtimeOnly("net.blay09.mods:craftingtweaks-neoforge:21.1.6+${minecraft_version}")
+    compileOnly("net.blay09.mods:craftingtweaks-neoforge:${craftingtweaks_version}+${minecraft_version}")
+    runtimeOnly("net.blay09.mods:craftingtweaks-neoforge:${craftingtweaks_version}+${minecraft_version}")
 
     // Example mod dependency using a mod jar from ./libs with a flat dir repository
     // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar
@@ -189,17 +189,19 @@ dependencies {
 // See https://docs.gradle.org/current/dsl/org.gradle.language.jvm.tasks.ProcessResources.html
 tasks.withType(ProcessResources).configureEach {
     var replaceProperties = [
-            minecraft_version         : minecraft_version,
-            minecraft_version_range   : minecraft_version_range,
-            neo_version               : neo_version,
-            loader_version_range      : loader_version_range,
-            jei_version_range         : jei_version_range,
-            crafttweaker_version_range: crafttweaker_version_range,
-            kubejs_version_range      : kubejs_version_range,
-            mod_id                    : mod_id,
-            mod_name                  : mod_name,
-            mod_license               : mod_license,
-            mod_version               : mod_version,
+            minecraft_version           : minecraft_version,
+            minecraft_version_range     : minecraft_version_range,
+            neo_version                 : neo_version,
+            loader_version_range        : loader_version_range,
+            jei_version_range           : jei_version_range,
+            crafttweaker_version_range  : crafttweaker_version_range,
+            kubejs_version_range        : kubejs_version_range,
+            balm_version_range          : balm_version_range,
+            craftingtweaks_version_range: craftingtweaks_version_range,
+            mod_id                      : mod_id,
+            mod_name                    : mod_name,
+            mod_license                 : mod_license,
+            mod_version                 : mod_version,
     ]
     inputs.properties replaceProperties
 
